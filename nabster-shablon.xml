@@ -1,0 +1,1194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dleplugin>
+	<name>nabster (Шаблон)</name>
+	<description></description>
+	<icon></icon>
+	<version>7.2</version>
+	<dleversion>13.0</dleversion>
+	<versioncompare>greater</versioncompare>
+	<upgradeurl></upgradeurl>
+	<filedelete>0</filedelete>
+	<needplugin></needplugin>
+	<mnotice>0</mnotice>
+	<mysqlinstall><![CDATA[]]></mysqlinstall>
+	<mysqlupgrade><![CDATA[]]></mysqlupgrade>
+	<mysqlenable><![CDATA[]]></mysqlenable>
+	<mysqldisable><![CDATA[]]></mysqldisable>
+	<mysqldelete><![CDATA[]]></mysqldelete>
+	<phpinstall><![CDATA[]]></phpinstall>
+	<phpupgrade><![CDATA[]]></phpupgrade>
+	<phpenable><![CDATA[]]></phpenable>
+	<phpdisable><![CDATA[]]></phpdisable>
+	<phpdelete><![CDATA[]]></phpdelete>
+	<notice><![CDATA[]]></notice>
+	<file name="engine/modules/profile.php">
+		<operation action="after">
+			<searchcode><![CDATA[else $mailbox = "";]]></searchcode>
+			<replacecode><![CDATA[$tpl->set( '{uniqid}', '?' . uniqid() );]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$tpl->set( '{pm}', "<a onclick=\"DLESendPM('" . urlencode($row['name']) . "'); return false;\" href=\"$PHP_SELF?do=pm&amp;doaction=newpm&amp;username=" . urlencode($row['name']) . "\">" . $lang['news_pmnew'] . "</a>" );]]></searchcode>
+			<replacecode><![CDATA[$tpl->set( '{pm}', "<a class=\"list-group-item list-group-item-action\" onclick=\"DLESendPM('" . urlencode($row['name']) . "'); return false;\" href=\"$PHP_SELF?do=pm&amp;doaction=newpm&amp;username=" . urlencode($row['name']) . "\"><i class=\"icon-speech mr-2\"></i> " . $lang['news_pmnew'] . "</a>" );]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$timezoneselect = "<select class=\"timezoneselect\" name=\"timezone\"><option value=\"\">{$lang['system_default']} {$langtimezones[$config['date_adjust']]}</option>\r\n";]]></searchcode>
+			<replacecode><![CDATA[$timezoneselect = "<select class=\"form-control w-100\" name=\"timezone\"><option value=\"\">{$lang['system_default']} {$langtimezones[$config['date_adjust']]}</option>\r\n";]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[if( ($config['allow_subscribe'] AND $user_group[$row['user_group']]['allow_subscribe']) OR ($member_id['user_group'] == 1) ) {
+		
+		if( $row['news_subscribe'] ) $row['news_subscribe'] = "checked"; else $row['news_subscribe'] = "";
+		$tpl->set( '{news-subscribe}', "<input type=\"checkbox\" name=\"news_subscribe\" id=\"news_subscribe\" value=\"1\" {$row['news_subscribe']} /><label for=\"news_subscribe\">{$lang['news_subscribe']}</label>" );
+	
+		if( $row['comments_reply_subscribe'] ) $row['comments_reply_subscribe'] = "checked"; else $row['comments_reply_subscribe'] = "";
+		$tpl->set( '{comments-reply-subscribe}', "<input type=\"checkbox\" name=\"comments_reply_subscribe\" id=\"comments_reply_subscribe\" value=\"1\" {$row['comments_reply_subscribe']} /><label for=\"comments_reply_subscribe\">{$lang['comments_reply_subscribe']}</label>" );
+
+		$count_subscribe = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_subscribe WHERE user_id = '{$row['user_id']}' " );
+
+		$lang['news_unsubscribe'] = str_replace("{subscribed}", $count_subscribe['count'], $lang['news_unsubscribe']);
+		$lang['news_unsubscribe'] = preg_replace_callback ( "#\\[declination=(.+?)\\](.+?)\\[/declination\\]#is", array( &$tpl, 'declination'), $lang['news_unsubscribe'] );
+		
+		$tpl->set( '{unsubscribe}', "<input type=\"checkbox\" name=\"unsubscribe\" id=\"unsubscribe\" value=\"1\" /><label for=\"unsubscribe\">{$lang['news_unsubscribe_1']} ({$lang['news_unsubscribe']})</label>" );
+		$tpl->set( '{subscribed}', $count_subscribe['count']);]]></searchcode>
+			<replacecode><![CDATA[if( ($config['allow_subscribe'] AND $user_group[$row['user_group']]['allow_subscribe']) OR ($member_id['user_group'] == 1) ) {
+
+		if( $row['news_subscribe'] ) $row['news_subscribe'] = "checked"; else $row['news_subscribe'] = "";
+		$tpl->set( '{news-subscribe}', "
+		<div class=\"custom-control custom-switch\">
+  		<input type=\"checkbox\" class=\"custom-control-input\" name=\"news_subscribe\" id=\"news_subscribe\" value=\"1\" {$row['news_subscribe']}>
+  		<label class=\"custom-control-label\" for=\"news_subscribe\">{$lang['news_subscribe']}</label>
+		</div>
+		" );
+		if( $row['comments_reply_subscribe'] ) $row['comments_reply_subscribe'] = "checked"; else $row['comments_reply_subscribe'] = "";
+		$tpl->set( '{comments-reply-subscribe}', "
+		<div class=\"custom-control custom-switch\">
+  		<input type=\"checkbox\" class=\"custom-control-input\" name=\"comments_reply_subscribe\" id=\"comments_reply_subscribe\" value=\"1\" {$row['comments_reply_subscribe']} />
+  		<label class=\"custom-control-label\" for=\"comments_reply_subscribe\">{$lang['comments_reply_subscribe']}</label>
+		</div>
+		" );
+		$count_subscribe = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_subscribe WHERE user_id = '{$row['user_id']}' " );
+		$lang['news_unsubscribe'] = str_replace("{subscribed}", $count_subscribe['count'], $lang['news_unsubscribe']);
+		$lang['news_unsubscribe'] = preg_replace_callback ( "#\\[declination=(.+?)\\](.+?)\\[/declination\\]#is", array( &$tpl, 'declination'), $lang['news_unsubscribe'] );
+		$tpl->set( '{unsubscribe}', "
+		<div class=\"custom-control custom-switch\">
+  		<input type=\"checkbox\" class=\"custom-control-input\" name=\"unsubscribe\" id=\"unsubscribe\" value=\"1\" />
+  		<label class=\"custom-control-label\" for=\"unsubscribe\">{$lang['news_unsubscribe_1']} ({$lang['news_unsubscribe']})</label>
+		</div>
+		" );
+		$tpl->set( '{subscribed}', $count_subscribe['count']);]]></replacecode>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$tpl->set( '{lastdate}', langdate( "j F Y H:i", $row['lastdate'] ) );]]></searchcode>
+			<replacecode><![CDATA[$tpl->set( '{usrid}', $row['user_id'] );]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/show.full.php">
+		<operation action="before">
+			<searchcode><![CDATA[$tpl->compile( 'content' );]]></searchcode>
+			<replacecode><![CDATA[$sql_poster = $db->query( "SELECT images, news_id FROM " . PREFIX . "_images where news_id = '{$row['id']}' LIMIT 2" );
+$poster = $db->get_row($sql_poster);
+if ($poster['images'] != "") {
+$scrsList = explode('|||',$poster['images']);
+        $scrs = '';
+        $cntscrs = 90;
+        $ai = 0;
+        foreach ($scrsList as $scr)
+        {
+            $ai++;
+            $scr = trim($scr);
+            $poster_temp = explode("/",$scr);
+            $poster_name = $poster_temp[1];
+            $poster_data = substr($scr,0,8);
+            if ($ai<=$cntscrs) {
+            $scrs .= '
+						<div class="item">
+							<a href="'. $config ['http_home_url'] . 'uploads/posts/'.$poster_data.''.$poster_name.'">
+								<img src="'. $config ['http_home_url'] . 'uploads/posts/'.$poster_data.$poster_name.'">
+							</a>
+						</div>
+						'; } else {
+             $scrs .= '';
+            }
+}
+        unset($scrsList);
+        if (!empty($poster['images'])) {
+            $scrall= $scrs;}
+$tpl->set ( '{poster}', $scrall);
+} else $tpl->set ( '{poster}', "" );]]></replacecode>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$tpl->set( '{login}', $row['autor'] );]]></searchcode>
+			<replacecode><![CDATA[$sql = $db->super_query("SELECT foto FROM ".PREFIX."_users WHERE name='{$row['autor']}'");
+ if (count(explode("@", $sql['foto'])) == 2) {
+ $tpl->set('{foto}', '//www.gravatar.com/avatar/' . md5(trim($sql['foto'])) . '?s=' . intval($user_group[$sql['user_group']]['max_foto']));
+ } else {
+ if ($sql['foto']) {
+ if (strpos($sql['foto'], "//") === 0)
+ $avatar = "http:" . $sql['foto'];
+ else
+ $avatar = $sql['foto'];
+ $avatar = @parse_url($avatar);
+ if ($avatar['host']) {
+ $tpl->set('{foto}', $sql['foto']);
+ } else
+ $tpl->set('{foto}', $config['http_home_url'] . "uploads/fotos/" . $sql['foto']);
+ } else
+ $tpl->set('{foto}', "{THEME}/dleimages/noavatar.png");
+ }]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$tpl->set( '[rating-plus]', "<a href=\"#\" onclick=\"doRate('plus', '{$row['id']}'); return false;\" >" );]]></searchcode>
+			<replacecode><![CDATA[$tpl->set( '[rating-plus]', "<a class=\"p-0 pl-2 pr-2 btn btn-sm btn-light\" href=\"#\" onclick=\"doRate('plus', '{$row['id']}'); return false;\" >" );]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$tpl->set( '[rating-minus]', "<a href=\"#\" onclick=\"doRate('minus', '{$row['id']}'); return false;\" >" );]]></searchcode>
+			<replacecode><![CDATA[$tpl->set( '[rating-minus]', "<a class=\"p-0 pl-2 pr-2 btn btn-sm btn-light\" href=\"#\" onclick=\"doRate('minus', '{$row['id']}'); return false;\" >" );]]></replacecode>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[$tpl->load_template( 'addcomments.tpl' );]]></searchcode>
+			<replacecode><![CDATA[if($member_id["foto"])
+{
+    if ( count(explode("@", $member_id["foto"])) == 2 ) {
+        $tpl->set( '{foto}', '//www.gravatar.com/avatar/' . md5(trim($member_id["foto"])) . '?s=' . intval($user_group[$member_id['user_group']]['max_foto']) );
+    } else {
+        if( $member_id["foto"] ) {
+            if (strpos($member_id["foto"], "//") === 0) $avatar = "http:".$member_id['foto']; else $avatar = $member_id['foto'];
+            $avatar = @parse_url ( $avatar );
+            if( $avatar['host'] ) {
+                $tpl->set( '{foto}', $member_id["foto"] );
+            } else $tpl->set( '{foto}', $config['http_home_url'] . "uploads/fotos/" . $member_id['foto'] );
+        } else $tpl->set( '{foto}', "{THEME}/dleimages/noavatar.png" );
+    }
+}
+else $tpl->set( '{foto}', "{THEME}/dleimages/noavatar.png" );]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[		if( $row['allow_comm'] ) {
+			
+			$tpl->set( '[com-link]', "<a id=\"dle-comm-link\" href=\"" . $full_link . "#comment\">" );
+			$tpl->set( '[/com-link]', "</a>" );
+		
+		} else
+			$tpl->set_block( "'\\[com-link\\](.*?)\\[/com-link\\]'si", "" );]]></searchcode>
+			<replacecode><![CDATA[		if( $row['allow_comm'] ) {
+			$tpl->set( '[com-link]', "<a id=\"dle-comm-link\" href=\"" . $full_link . "#comment\">" );
+			$tpl->set( '[/com-link]', "</a>" );
+
+			$tpl->set_block( "'\\[not-allow-comm\\](.*?)\\[/not-allow-comm\\]'si", "" );
+		} else {
+			$tpl->set_block( "'\\[com-link\\](.*?)\\[/com-link\\]'si", "" );
+
+			$tpl->set( '[not-allow-comm]', "" );
+			$tpl->set( '[/not-allow-comm]', "" );
+		}]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[										$gallery_single_image['[xfvalue_'.$value[0].' image="'.$xf_image_count.'"]'] = "<a href=\"{$img_url}\" class=\"highslide\" target=\"_blank\"><img class=\"xfieldimage {$value[0]}\" src=\"{$thumb_url}\" alt=\"{$temp_alt}\"></a>";]]></searchcode>
+			<replacecode><![CDATA[										$gallery_single_image['[xfvalue_'.$value[0].' image="'.$xf_image_count.'"]'] = "
+										<a href=\"{$img_url}\">
+											<img class=\"xfieldimage {$value[0]}\" src=\"{$thumb_url}\" alt=\"{$temp_alt}\">
+										</a>
+										";]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/main.php">
+		<operation action="before">
+			<searchcode><![CDATA[echo $tpl->result['main'];]]></searchcode>
+			<replacecode><![CDATA[$tpl->result['main'] = str_replace("%username_login%", $is_logged?$member_id['name']:'Гость', $tpl->result['main']);]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/show.short.php">
+		<operation action="after">
+			<searchcode><![CDATA[$tpl->set( '{login}', $row['autor'] );]]></searchcode>
+			<replacecode><![CDATA[$sql = $db->super_query("SELECT foto FROM ".PREFIX."_users WHERE name='{$row['autor']}'");
+ if (count(explode("@", $sql['foto'])) == 2) {
+ $tpl->set('{foto}', '//www.gravatar.com/avatar/' . md5(trim($sql['foto'])) . '?s=' . intval($user_group[$sql['user_group']]['max_foto']));
+ } else {
+ if ($sql['foto']) {
+ if (strpos($sql['foto'], "//") === 0)
+ $avatar = "http:" . $sql['foto'];
+ else
+ $avatar = $sql['foto'];
+ $avatar = @parse_url($avatar);
+ if ($avatar['host']) {
+ $tpl->set('{foto}', $sql['foto']);
+ } else
+ $tpl->set('{foto}', $config['http_home_url'] . "uploads/fotos/" . $sql['foto']);
+ } else
+ $tpl->set('{foto}', "{THEME}/dleimages/noavatar.png");
+ }]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$tpl->set( '[rating-plus]', "<a href=\"#\" onclick=\"doRate('plus', '{$row['id']}'); return false;\" >" );]]></searchcode>
+			<replacecode><![CDATA[$tpl->set( '[rating-plus]', "<a class=\"p-0 pl-2 pr-2 btn btn-sm btn-light\" href=\"#\" onclick=\"doRate('plus', '{$row['id']}'); return false;\" >" );]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$tpl->set( '[rating-minus]', "<a href=\"#\" onclick=\"doRate('minus', '{$row['id']}'); return false;\" >" );]]></searchcode>
+			<replacecode><![CDATA[$tpl->set( '[rating-minus]', "<a class=\"p-0 pl-2 pr-2 btn btn-sm btn-light\" href=\"#\" onclick=\"doRate('minus', '{$row['id']}'); return false;\" >" );]]></replacecode>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[if( $category_id and $cat_info[$category_id]['short_tpl'] != '' ) $tpl->load_template( $cat_info[$category_id]['short_tpl'] . '.tpl' );]]></searchcode>
+			<replacecode><![CDATA[elseif($dle_module == "favorites") $tpl->load_template( 'favoritesall.tpl' );]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/show.custom.php">
+		<operation action="after">
+			<searchcode><![CDATA[$tpl->set( '{login}', $row['autor'] );]]></searchcode>
+			<replacecode><![CDATA[$sql = $db->super_query("SELECT foto FROM ".PREFIX."_users WHERE name='{$row['autor']}'");
+ if (count(explode("@", $sql['foto'])) == 2) {
+ $tpl->set('{foto}', '//www.gravatar.com/avatar/' . md5(trim($sql['foto'])) . '?s=' . intval($user_group[$sql['user_group']]['max_foto']));
+ } else {
+ if ($sql['foto']) {
+ if (strpos($sql['foto'], "//") === 0)
+ $avatar = "http:" . $sql['foto'];
+ else
+ $avatar = $sql['foto'];
+ $avatar = @parse_url($avatar);
+ if ($avatar['host']) {
+ $tpl->set('{foto}', $sql['foto']);
+ } else
+ $tpl->set('{foto}', $config['http_home_url'] . "uploads/fotos/" . $sql['foto']);
+ } else
+ $tpl->set('{foto}', "{THEME}/dleimages/noavatar.png");
+ }]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$tpl->set( '[rating-minus]', "<a href=\"#\" onclick=\"doRate('minus', '{$row['id']}'); return false;\" >" );]]></searchcode>
+			<replacecode><![CDATA[$tpl->set( '[rating-minus]', "<a class=\"p-0 pl-2 pr-2 btn btn-sm btn-light\" href=\"#\" onclick=\"doRate('minus', '{$row['id']}'); return false;\" >" );]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$tpl->set( '[rating-plus]', "<a href=\"#\" onclick=\"doRate('plus', '{$row['id']}'); return false;\" >" );]]></searchcode>
+			<replacecode><![CDATA[$tpl->set( '[rating-plus]', "<a class=\"p-0 pl-2 pr-2 btn btn-sm btn-light\" href=\"#\" onclick=\"doRate('plus', '{$row['id']}'); return false;\" >" );]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/engine.php">
+		<operation action="after">
+			<searchcode><![CDATA[	case "pm" :
+		include (DLEPlugins::Check(ENGINE_DIR . '/modules/pm.php'));
+		break;]]></searchcode>
+			<replacecode><![CDATA[	case "users" :
+		include (DLEPlugins::Check(ENGINE_DIR . '/modules/users.php'));
+		break;]]></replacecode>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[elseif ($do == 'pm') $nam_e = $lang['title_pm'];]]></searchcode>
+			<replacecode><![CDATA[elseif ($do == 'users') $nam_e = "Список пользователей";]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/addnews.php">
+		<operation action="replace">
+			<searchcode><![CDATA[$cats = "<select data-placeholder=\"{$lang['addnews_cat_sel']}\" name=\"catlist[]\" id=\"category\" onchange=\"onCategoryChange(this)\" style=\"width:350px;height:140px;\" multiple=\"multiple\">";]]></searchcode>
+			<replacecode><![CDATA[$cats = "<select class=\"selectpicker\" data-style=\"btn btn-secondary\" data-max-options=\"3\" data-placeholder=\"{$lang['addnews_cat_sel']}\" name=\"catlist[]\" id=\"category\" onchange=\"onCategoryChange(this)\" multiple>";]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$cats = "<select data-placeholder=\"{$lang['addnews_cat_sel']}\" name=\"catlist[]\" id=\"category\" onchange=\"onCategoryChange(this)\" style=\"width:350px;\">";]]></searchcode>
+			<replacecode><![CDATA[$cats = "<select class=\"selectpicker\" data-style=\"btn btn-secondary\" data-max-options=\"3\" class=\"w-100\" data-placeholder=\"{$lang['addnews_cat_sel']}\" name=\"catlist[]\" id=\"category\" onchange=\"onCategoryChange(this)\" multiple>";]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/mainstats.php">
+		<operation action="create">
+			<replacecode><![CDATA[<?php
+if(!defined('DATALIFEENGINE')){
+	die( "Hacking attempt!" );
+}
+$is_change = false;
+if ($config['allow_cache'] != "yes") {
+	$config['allow_cache'] = "yes";
+	$is_change = true;
+}
+$uStats = dle_cache( "uStats", $config['skin'] );
+
+$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_users" );
+$count_users = $row['count'];
+
+$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_post" );
+$stats_news = $row['count'];
+
+$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_comments" );
+$count_comments = $row['count'];
+
+$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_category" );
+$stats_cat = $row['count'];
+
+$sql_result = $db->query("select count(*) as nums from ". PREFIX ."_post where approve AND category in(9,11,12,13)");
+while($row = $db->get_row($sql_result))
+$cat_day = $row['nums'];
+
+$temp_date = date( 'Y-m-d H:i', $_TIME - (3600 * 24) );
+$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_post WHERE date >= '$temp_date'AND date <= '".date( 'Y-m-d H:i', $_TIME)."' AND approve ='1'" );
+$stats_day = $row['count'];
+
+$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_comments WHERE date >= '$temp_date'AND date <= '".date( 'Y-m-d H:i', $_TIME)."'" );
+$comments_day = $row['count'];
+
+$temp_date = $_TIME - (3600 * 24);
+$row = $db->super_query( "SELECT COUNT(*) as count FROM " . USERPREFIX . "_users WHERE reg_date > '$temp_date'" );
+$user_day = $row['count'];
+
+$stats_users = $prouser_sum + $user_sum + 0;
+$uStats = <<<HTML
+<div class="card mb-5 w-100">
+<div class="card-body">
+	<div class="progress" style="height: 3px;">
+	  <div class="progress-bar bg-primary" role="progressbar" style="width: $stats_news%" aria-valuenow="$stats_news" aria-valuemin="0" ></div>
+	  <div class="progress-bar bg-danger" role="progressbar" style="width: $cat_day%" aria-valuenow="$cat_day" aria-valuemin="0" ></div>
+	  <div class="progress-bar bg-success" role="progressbar" style="width: $count_comments%" aria-valuenow="$count_comments" aria-valuemin="0" ></div>
+	  <div class="progress-bar bg-warning" role="progressbar" style="width: $count_users%" aria-valuenow="$count_users" aria-valuemin="0" ></div>
+	</div>
+</div>
+<div class="list-group list-group-flush">
+	<a href="/lastnews/" class="list-group-item list-group-item-action" style="padding: 0.5rem 1.25rem;;">
+	<div class="media">
+		<i style="font-size: 2rem;" class="fa fa-square-o d-flex mr-2 align-self-center text-primary" aria-hidden="true"></i>
+		<div class="media-body" style="font-size: 84%;overflow: auto;">
+			<div class="mt-0"><b style="font-family: arial;">Всего публикаций: $stats_news</b></div>
+			<span class="text-muted">Добавлено за сутки: +$stats_day</span>
+		</div>
+	</div>
+	</a>
+
+	<a href="/blog/" class="list-group-item list-group-item-action" style="padding: 0.5rem 1.25rem;;">
+	<div class="media">
+		<i style="font-size: 2rem;" class="fa fa-square-o d-flex mr-2 align-self-center text-danger" aria-hidden="true"></i>
+	  <div class="media-body" style="font-size: 84%;overflow: auto;">
+	    <div class="mt-0"><b style="font-family: arial;">Записей в блоге: $cat_day</b></div>
+	    <span class="text-muted">Добавлено за сутки: +$stats_day</span>
+	  </div>
+	</div>
+	</a>
+
+	<a href="/index.php?do=lastcomments" class="list-group-item list-group-item-action" style="padding: 0.5rem 1.25rem;;">
+	<div class="media">
+	  <i style="font-size: 2rem;" class="fa fa-square-o d-flex mr-2 align-self-center text-success" aria-hidden="true"></i>
+	  <div class="media-body" style="font-size: 84%;overflow: auto;">
+	    <div class="mt-0"><b style="font-family: arial;">Комментариев: $count_comments</b></div>
+	    <span class="text-muted">Добавлено за сутки: +$comments_day</span>
+	  </div>
+	</div>
+	</a>
+
+	<a href="/index.php?do=users" class="list-group-item list-group-item-action" style="padding: 0.5rem 1.25rem;;">
+	<div class="media">
+	  <i style="font-size: 2rem;" class="fa fa-square-o d-flex mr-2 align-self-center text-warning" aria-hidden="true"></i>
+	  <div class="media-body" style="font-size: 84%;overflow: auto;">
+	    <div class="mt-0"><b style="font-family: arial;">Пользователей: $count_users</b></div>
+	    <span class="text-muted">Добавлено за сутки: +$user_day</span>
+	  </div>
+	</div>
+	</a>
+
+	<a href="/statistics.html" class="list-group-item list-group-item-action" style="padding: 0.5rem 1.25rem;;">
+	<div class="media">
+		<img class="d-flex mr-2 align-self-center" src="{THEME}/images/stats.svg" style="width: 24px;height: 24px;object-fit: cover;margin: 0 5px 0 0;">
+		<div class="media-body text-muted" style="font-size: 84%;overflow: auto;">
+			<div class="mt-0"><b style="font-family: arial;"><i class="fa fa-share" aria-hidden="true"></i> Полная статистика..</b></div>
+			Подробная статистика сайта
+		</div>
+	</div>
+	</a>
+
+</div>
+</div>
+HTML;
+echo $uStats;
+if ($is_change) $config['allow_cache'] = false;
+?>]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/poll.php">
+		<operation action="replace">
+			<searchcode><![CDATA[<div class="pollprogress"><span class="poll{$pn}" style="width:{$intproc}%;">{$proc}%</span></div>]]></searchcode>
+			<replacecode><![CDATA[<div class="progress poll{$pn} mb-3" style="height: 20px;">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{$proc}" aria-valuemin="0" aria-valuemax="100" style="width: {$intproc}%">{$proc}%</div>
+</div>]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[<div class="pollanswer"><input id="vote{$row['id']}{$v}" name="dle_poll_votes[]" type="checkbox" value="{$v}" /><label for="vote{$row['id']}{$v}">  {$body[$v]}</label></div>]]></searchcode>
+			<replacecode><![CDATA[			<div class="custom-control custom-switch mb-1">
+				<input type="checkbox" class="custom-control-input" name="dle_poll_votes[]" id="vote{$row['id']}{$v}" value="{$v}"/>
+				<label class="custom-control-label" for="vote{$row['id']}{$v}">{$body[$v]}</label>
+			</div>]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[<div class="pollanswer"><input id="vote{$row['id']}{$v}" name="dle_poll_votes" type="radio" value="{$v}" /><label for="vote{$row['id']}{$v}"> {$body[$v]}</label></div>]]></searchcode>
+			<replacecode><![CDATA[<div class="custom-control custom-switch mb-1">
+	<input type="radio" class="custom-control-input" name="dle_poll_votes" id="vote{$row['id']}{$v}" value="{$v}"/>
+	<label class="custom-control-label" for="vote{$row['id']}{$v}">{$body[$v]}</label>
+</div>]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/reg.php">
+		<operation action="create">
+			<replacecode><![CDATA[<?php
+if(!defined('DATALIFEENGINE')) {
+  	die("Hacking attempt!");
+}
+
+global $config;
+
+$limit = $limit ? intval($limit) : "5";
+
+if (!$r_regtop) {
+$sql = $db->query("SELECT * FROM " . PREFIX . "_users ORDER BY reg_date DESC LIMIT 0,{$limit}");
+
+while ($row = $db->get_row($sql)) { 
+    $r_regtop.= "<a class=\"badge badge-light\" href=\"/user/{$row['name']}\">{$row['name']}</a>";
+}
+
+}
+echo $r_regtop;
+?>]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/stats.php">
+		<operation action="replaceall">
+			<replacecode><![CDATA[<?php
+
+if( ! defined( 'DATALIFEENGINE' ) ) {
+	die( "Hacking attempt!" );
+}
+
+$tpl->result['content'] = dle_cache( "stats", $config['skin'], true );
+
+if( ! $tpl->result['content'] ) {
+
+	$db->query( "SHOW TABLE STATUS FROM `" . DBNAME . "`" );
+	$mysql_size = 0;
+	while ( $r = $db->get_row() ) {
+
+		if( strpos( $r['Name'], PREFIX . "_" ) !== false ) $mysql_size += $r['Data_length'] + $r['Index_length'];
+
+	}
+	$db->free();
+
+	$mysql_size = formatsize( $mysql_size );
+
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_post" );
+	$stats_news = $row['count'];
+
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_post WHERE approve ='1'" );
+	$stats_approve = $row['count'];
+
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_comments" );
+	$count_comments = $row['count'];
+
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . USERPREFIX . "_users" );
+	$stats_users = $row['count'];
+
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . USERPREFIX . "_users WHERE banned='yes'" );
+	$stats_banned = $row['count'];
+
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_post WHERE allow_main ='1' AND approve ='1'" );
+	$stats_main = $row['count'];
+
+	$temp_date = date( 'Y-m-d H:i', $_TIME - (3596 * 24) );
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_post WHERE date >= '$temp_date'AND date <= '$temp_date' + INTERVAL 24 HOUR AND approve ='1'" );
+	$stats_day = $row['count'];
+
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_comments WHERE date >= '$temp_date'AND date <= '$temp_date' + INTERVAL 24 HOUR" );
+	$comments_day = $row['count'];
+
+	$temp_date = date( 'Y-m-d H:i', $_TIME - (3600 * 24 * 7) );
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_post WHERE date >= '$temp_date'AND date <= '$temp_date' + INTERVAL 7 DAY AND approve ='1'" );
+	$stats_week = $row['count'];
+
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_comments WHERE date >= '$temp_date'AND date <= '$temp_date' + INTERVAL 7 DAY" );
+	$comments_week = $row['count'];
+
+	$temp_date = date( 'Y-m-d H:i', $_TIME - (3600 * 24 * 31) );
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_post WHERE date >= '$temp_date'AND date <= '$temp_date' + INTERVAL 31 DAY AND approve ='1'" );
+	$stats_month = $row['count'];
+
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . PREFIX . "_comments WHERE date >= '$temp_date'AND date <= '$temp_date' + INTERVAL 31 DAY" );
+	$comments_month = $row['count'];
+
+	$temp_date = $_TIME - (3600 * 24);
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . USERPREFIX . "_users WHERE reg_date > '$temp_date'" );
+	$user_day = $row['count'];
+
+	$temp_date = $_TIME - (3600 * 24 * 7);
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . USERPREFIX . "_users WHERE reg_date > '$temp_date'" );
+	$user_week = $row['count'];
+
+	$temp_date = $_TIME - (3600 * 24 * 31);
+	$row = $db->super_query( "SELECT COUNT(*) as count FROM " . USERPREFIX . "_users WHERE reg_date > '$temp_date'" );
+	$user_month = $row['count'];
+
+	$tpl->load_template( 'stats.tpl' );
+
+	$tpl->set( '{datenbank}', $mysql_size );
+	$tpl->set( '{news_num}', $stats_news );
+	$tpl->set( '{news_allow}', $stats_approve );
+	$tpl->set( '{comm_num}', $count_comments );
+	$tpl->set( '{user_num}', $stats_users );
+	$tpl->set( '{user_banned}', $stats_banned );
+	$tpl->set( '{news_main}', $stats_main );
+	$tpl->set( '{news_moder}', $stats_news - $stats_approve );
+
+	$tpl->set( '{news_day}', $stats_day );
+	$tpl->set( '{news_week}', $stats_week );
+	$tpl->set( '{news_month}', $stats_month );
+
+	$tpl->set( '{comm_day}', $comments_day );
+	$tpl->set( '{comm_week}', $comments_week );
+	$tpl->set( '{comm_month}', $comments_month );
+
+	$tpl->set( '{user_day}', $user_day );
+	$tpl->set( '{user_week}', $user_week );
+	$tpl->set( '{user_month}', $user_month );
+
+
+
+	$db->query( "SELECT user_id, foto, name, user_group, reg_date, lastdate, news_num, comm_num FROM " . USERPREFIX . "_users WHERE news_num > '0' ORDER BY news_num DESC LIMIT 0,10" );
+
+
+	while ( $row = $db->get_row() ) {
+
+		$registration = langdate( $config['timestamp_active'], $row['reg_date'] );
+		$last = langdate( $config['timestamp_active'], $row['lastdate'] );
+
+		if( $config['allow_alt_url'] ) {
+
+			$user_name = $config['http_home_url'] . "user/" . urlencode( $row['name'] ) . "/";
+			$user_name = "class=\"btn btn-secondary btn-sm btn-block my-3 text-truncate\" onclick=\"ShowProfile('" . urlencode( $row['name'] ) . "', '" . htmlspecialchars( $user_name, ENT_QUOTES, $config['charset'] ) . "', '" . $user_group[$member_id['user_group']]['admin_editusers'] . "'); return false;\"";
+			$user_name = "<span class=\"short-title\" style=\"font-size: 13px;\"><a {$user_name} class=\"pm_list\" href=\"" . $config['http_home_url'] . "user/" . urlencode( $row['name'] ) . "/\">" . $row['name'] . "</a></span>";
+
+		} else {
+
+			$user_name = "$PHP_SELF?subaction=userinfo&user=" . urlencode( $row['name'] );
+			$user_name = "onclick=\"ShowProfile('" . urlencode( $row['name'] ) . "', '" . htmlspecialchars( $user_name, ENT_QUOTES, $config['charset'] ) . "', '" . $user_group[$member_id['user_group']]['admin_editusers'] . "'); return false;\"";
+			$user_name = "<span class=\"short-title\" style=\"font-size: 13px;\"><a {$user_name} class=\"pm_list\" href=\"$PHP_SELF?subaction=userinfo&amp;user=" . urlencode( $row['name'] ) . "\">" . $row['name'] . "</a></span>";
+
+		}
+
+		$user_pm = "<span class=\"short-title\" style=\"font-size: 13px;\"><a href=\"$PHP_SELF?do=pm&amp;doaction=newpm&amp;username=" . urlencode($row['name']) . "\">{$lang['top_pm']}</a></span>";
+
+		if( $row['foto'] ) {
+					if (strpos($row['foto'], "//") === 0) $user_foto = "http:".$row['foto']; else $user_foto = $row['foto'];
+					$user_foto = @parse_url ( $user_foto );
+					if( $user_foto['host'] ) {
+						$user_foto = $row['foto'];
+					} else $user_foto = "/uploads/fotos/" . $row['foto']  ." ";
+				} else $user_foto = "{THEME}/dleimages/noavatar.png";
+
+
+		$top_table .= "
+		<div class=\"item\">
+			<div class=\"usrc text-center\">
+				 <center><img src='$user_foto' style=\"width: 70px;height: 70px;object-fit: cover;\"></center>
+			    <br>
+					<span class=\"text-muted f90\">
+				 {$user_name}
+				 <ul class=\"list-unstyled sui text-left m-0\">
+				 	<li>Публикаций <span class=\"float-right\">{$row['news_num']}</span></li>
+				 	<li>Комм-ев <span class=\"float-right\">{$row['comm_num']}</span></li>
+				 </ul>
+				 </span>
+			</div>
+		</div>
+		";
+
+	}
+
+	$db->free();
+
+	$tpl->set( '{topusers}', $top_table );
+
+	$tpl->compile( 'content' );
+	$tpl->clear();
+
+	create_cache( "stats", $tpl->result['content'], $config['skin'], true );
+}
+?>
+]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/users.php">
+		<operation action="create">
+			<replacecode><![CDATA[<?php
+
+if (!defined('DATALIFEENGINE')) {
+    die("Hacking attempt!");
+}
+
+include_once ENGINE_DIR . '/classes/parse.class.php';
+$parse            = new ParseFilter();
+$parse->safe_mode = true;
+
+$tpl->load_template('users_search.tpl');
+
+$g = 0;
+
+$_GET['count']      = intval($_GET['count']);
+$_GET['order']      = addslashes($_GET['order']);
+$_GET['sort']       = addslashes($_GET['sort']);
+$_GET['usergroups'] = intval($_GET['usergroups']);
+$_GET['login']      = addslashes($_GET['login']);
+
+while ($g++ <= 9) {
+    $u = $g * 10;
+    if ($_GET['count'] != $u)
+        $sel_num .= '<option value="' . $u . '">' . $u . '</option>';
+    else
+        $sel_num .= '<option value="' . $u . '" selected>' . $u . '</option>';
+}
+
+$tpl->set('{count}', $sel_num);
+
+$orders = array(
+    'name' => 'Логин',
+    'user_group' => 'Группа',
+    'reg_date' => 'Регистрация',
+    'lastdate' => 'Вход',
+    'news_num' => 'Новостей',
+    'comm_num' => 'Комментариев'
+);
+
+foreach ($orders as $key => $value) {
+    if ($_GET['order'] == $key)
+        $order .= '<option value="' . $key . '" selected>' . $value . '</option>';
+    else
+        $order .= '<option value="' . $key . '">' . $value . '</option>';
+}
+
+$tpl->set('{order}', $order);
+
+$sorts = array(
+    'ASC' => 'По возрастанию',
+    'DESC' => 'По убыванию'
+);
+
+foreach ($sorts as $key => $value) {
+    if ($_GET['sort'] == $key)
+        $sort .= '<option value="' . $key . '" selected>' . $value . '</option>';
+    else
+        $sort .= '<option value="' . $key . '">' . $value . '</option>';
+}
+
+$tpl->set('{sort}', $sort);
+
+$usergroups = $db->query("SELECT * FROM " . USERPREFIX . "_usergroups");
+
+while ($row = $db->get_row($usergroups)) {
+    if ($_GET['usergroups'] == $row['id'])
+        $group_s .= '<option value="' . $row['id'] . '" selected>' . $row['group_name'] . '</option>';
+    else
+        $group_s .= '<option value="' . $row['id'] . '">' . $row['group_name'] . '</option>';
+}
+
+$tpl->set('{usergroups}', $group_s);
+
+if ($_GET['count'] != "") {
+    $searchcount = intval($_GET['count']);
+    $postfix .= "&count=$searchcount";
+} else {
+    $searchcount = 27;
+}
+
+if ($_GET['order'] != "") {
+    $order_by = $_GET['order'];
+    $postfix .= "&order=" . $_GET['order'];
+} else
+    $order_by = "user_group";
+
+if ($_GET['sort'] != "") {
+    $sort_by = $_GET['sort'];
+    $postfix .= "&sort=" . $_GET['sort'];
+} else {
+    $sort_by = "ASC";
+}
+
+if ($_GET['usergroups'] != "" or $_GET['login'] != "")
+    $where_w = "WHERE ";
+
+if ($_GET['usergroups'] != "") {
+    $where_w .= "user_group=" . $_GET['usergroups'];
+    $postfix .= "&usergroups=" . $_GET['usergroups'];
+}
+
+if ($_GET['login'] != "") {
+    if ($_GET['usergroups'] != "")
+        $where_w .= " AND ";
+    $where_w .= "name like '%" . $_GET['login'] . "%'";
+    $postfix .= "&login=" . $_GET['login'];
+    $login_val = $_GET['login'];
+}
+
+$tpl->set('{login}', $login_val);
+
+$sql_count = "SELECT COUNT(*) as count FROM " . PREFIX . "_users $where_w";
+
+$row       = $db->super_query($sql_count);
+$count_all = $row['count'];
+
+function pluralForm($count_all, $numb1, $numb2, $numb3)
+{
+    $count_all = abs($count_all) % 100;
+    $n1        = $count_all % 10;
+    if ($count_all > 10 && $count_all < 20)
+        return $numb3;
+    if ($n1 > 1 && $n1 < 5)
+        return $numb2;
+    if ($n1 == 1)
+        return $numb1;
+    return $numb3;
+}
+
+$tpl->set('{numbers}', pluralForm($count_all, 'Найден', 'Найдено', 'Найдено') . ' ' . $count_all . ' ' . pluralForm($count_all, 'пользователь', 'пользвателя', 'пользователей'));
+
+$tpl->compile('content');
+
+$main_tpl = $tpl->result['content'];
+$tpl->result['content'] = '';
+
+if (!isset($cstart) or ($cstart < 1)) {
+    $cstart      = 1;
+    $cstartlimit = 0;
+} else {
+    $cstartlimit = ($cstart - 1) * $searchcount;
+}
+
+$i = $cstartlimit;
+
+$sql_result = $db->query("SELECT * FROM " . USERPREFIX . "_users $where_w ORDER BY $order_by $sort_by LIMIT $cstartlimit,$searchcount");
+
+$tpl->load_template('users.tpl');
+
+
+
+
+
+
+while ($row = $db->get_row($sql_result)) {
+
+    if ($row['banned'] == 'yes')
+        $user_group[$row['user_group']]['group_name'] = $lang['user_ban'];
+
+    $i++;
+
+    $tpl->set('{numb}', "$i");
+
+    if ($row['allow_mail']) {
+        if (!$user_group[$member_id['user_group']]['allow_feed'] AND $row['user_group'] != 1) {
+            $tpl->set_block("'\\[email\\](.*?)\\[/email\\]'si", "");
+            $tpl->set('{email}', "");
+            $tpl->set('[not-email]', "");
+            $tpl->set('[/not-email]', "");
+        } else {
+            $tpl->set('[email]', "");
+            $tpl->set('[/email]', "");
+            $tpl->set('{email}', "$PHP_SELF?do=feedback&amp;user=$row[user_id]");
+            $tpl->set_block("'\\[not-email\\](.*?)\\[/not-email\\]'si", "");
+        }
+    } else {
+        $tpl->set_block("'\\[email\\](.*?)\\[/email\\]'si", "");
+        $tpl->set('{email}', "");
+        $tpl->set('[not-email]', "");
+        $tpl->set('[/not-email]', "");
+    }
+
+    if ($user_group[$member_id['user_group']]['allow_pm']) {
+        $tpl->set('[pm]', "");
+        $tpl->set('[/pm]', "");
+        $tpl->set('{pm}', "$PHP_SELF?do=pm&amp;doaction=newpm&amp;user=" . $row['user_id']);
+        $tpl->set_block("'\\[not-pm\\](.*?)\\[/not-pm\\]'si", "");
+    } else {
+        $tpl->set_block("'\\[pm\\](.*?)\\[/pm\\]'si", "");
+        $tpl->set('{pm}', "");
+        $tpl->set('[not-pm]', "");
+        $tpl->set('[/not-pm]', "");
+    }
+
+    if (count(explode("@", $row['foto'])) == 2) {
+        $tpl->set('{gravatar}', $row['foto']);
+
+        $tpl->set('{foto}', 'http://www.gravatar.com/avatar/' . md5(trim($row['foto'])) . '?s=' . intval($user_group[$row['user_group']]['max_foto']));
+
+    } else {
+
+        if ($row['foto']) {
+
+            if (strpos($row['foto'], "//") === 0)
+                $avatar = "http:" . $row['foto'];
+            else
+                $avatar = $row['foto'];
+
+            $avatar = @parse_url($avatar);
+
+            if ($avatar['host']) {
+
+                $tpl->set('{foto}', $row['foto']);
+
+            } else
+                $tpl->set('{foto}', $config['http_home_url'] . "uploads/fotos/" . $row['foto']);
+
+        } else
+            $tpl->set('{foto}', "{THEME}/dleimages/noavatar.png");
+
+    }
+
+    $tpl->set('{usertitle}', stripslashes($row['name']));
+
+    if ($row['fullname']) {
+        $tpl->set('[fullname]', "");
+        $tpl->set('[/fullname]', "");
+        $tpl->set('{fullname}', stripslashes($row['fullname']));
+        $tpl->set_block("'\\[not-fullname\\](.*?)\\[/not-fullname\\]'si", "");
+
+    } else {
+        $tpl->set_block("'\\[fullname\\](.*?)\\[/fullname\\]'si", "");
+        $tpl->set('{fullname}', "");
+        $tpl->set('[not-fullname]', "");
+        $tpl->set('[/not-fullname]', "");
+    }
+
+    if ($row['land']) {
+        $tpl->set('[land]', "");
+        $tpl->set('[/land]', "");
+        $tpl->set('{land}', stripslashes($row['land']));
+        $tpl->set_block("'\\[not-land\\](.*?)\\[/not-land\\]'si", "");
+
+    } else {
+        $tpl->set_block("'\\[land\\](.*?)\\[/land\\]'si", "");
+        $tpl->set('{land}', "");
+        $tpl->set('[not-land]', "");
+        $tpl->set('[/not-land]', "");
+    }
+
+    if ($row['info']) {
+        $tpl->set('[info]', "");
+        $tpl->set('[/info]', "");
+        $tpl->set('{info}', stripslashes($row['info']));
+        $tpl->set_block("'\\[not-info\\](.*?)\\[/not-info\\]'si", "");
+    } else {
+        $tpl->set_block("'\\[info\\](.*?)\\[/info\\]'si", "");
+        $tpl->set('{info}', "");
+        $tpl->set('[not-info]', "");
+        $tpl->set('[/not-info]', "");
+    }
+
+    if (($row['lastdate'] + 1200) > $_TIME) {
+
+        $tpl->set('[online]', "");
+        $tpl->set('[/online]', "");
+        $tpl->set_block("'\\[offline\\](.*?)\\[/offline\\]'si", "");
+
+    } else {
+        $tpl->set('[offline]', "");
+        $tpl->set('[/offline]', "");
+        $tpl->set_block("'\\[online\\](.*?)\\[/online\\]'si", "");
+    }
+
+    $tpl->set( '{status}',  $user_group[$row['user_group']]['group_prefix'].$user_group[$row['user_group']]['group_name'].$user_group[$row['user_group']]['group_suffix'] );
+    $tpl->set('{registration}', langdate("j F Y H:i", $row['reg_date']));
+    $tpl->set('{lastdate}', langdate("j F Y H:i", $row['lastdate']));
+
+    if ($user_group[$row['user_group']]['icon'])
+        $tpl->set('{group-icon}', "<img src=\"" . $user_group[$row['user_group']]['icon'] . "\" border=\"0\" />");
+    else
+        $tpl->set('{group-icon}', "");
+
+    if ($is_logged and $user_group[$row['user_group']]['time_limit'] and ($member_id['user_id'] == $row['user_id'] or $member_id['user_group'] < 3)) {
+
+        $tpl->set_block("'\\[time_limit\\](.*?)\\[/time_limit\\]'si", "\\1");
+
+        if ($row['time_limit']) {
+
+            $tpl->set('{time_limit}', langdate("j F Y H:i", $row['time_limit']));
+
+        } else {
+
+            $tpl->set('{time_limit}', $lang['no_limit']);
+
+        }
+
+    } else {
+
+        $tpl->set_block("'\\[time_limit\\](.*?)\\[/time_limit\\]'si", "");
+
+    }
+
+    if ($row['comm_num']) {
+
+        $tpl->set('[comm-num]', "");
+        $tpl->set('[/comm-num]', "");
+        $tpl->set('{comm-num}', $row['comm_num']);
+        $tpl->set('{comments}', "<a href=\"$PHP_SELF?do=lastcomments&amp;userid=" . $row['user_id'] . "\">" . $lang['last_comm'] . "</a>");
+        $tpl->set_block("'\\[not-comm-num\\](.*?)\\[/not-comm-num\\]'si", "");
+
+    } else {
+
+        $tpl->set('{comments}', $lang['last_comm']);
+        $tpl->set('{comm-num}', 0);
+        $tpl->set_block("'\\[comm-num\\](.*?)\\[/comm-num\\]'si", "");
+        $tpl->set('[not-comm-num]', "");
+        $tpl->set('[/not-comm-num]', "");
+    }
+
+    if ($row['news_num']) {
+
+        if ($config['allow_alt_url']) {
+
+            $tpl->set('{news}', "<a href=\"" . $config['http_home_url'] . "user/" . urlencode($row['name']) . "/news/" . "\">" . $lang['all_user_news'] . "</a>");
+            $tpl->set('[rss]', "<a href=\"" . $config['http_home_url'] . "user/" . urlencode($row['name']) . "/rss.xml" . "\" title=\"" . $lang['rss_user'] . "\">");
+            $tpl->set('[/rss]', "</a>");
+
+        } else {
+
+            $tpl->set('{news}', "<a href=\"" . $PHP_SELF . "?subaction=allnews&amp;user=" . urlencode($row['name']) . "\">" . $lang['all_user_news'] . "</a>");
+            $tpl->set('[rss]', "<a href=\"engine/rss.php?subaction=allnews&amp;user=" . urlencode($row['name']) . "\" title=\"" . $lang['rss_user'] . "\">");
+            $tpl->set('[/rss]', "</a>");
+        }
+
+        $tpl->set('{news-num}', $row['news_num']);
+        $tpl->set('[news-num]', "");
+        $tpl->set('[/news-num]', "");
+        $tpl->set_block("'\\[not-news-num\\](.*?)\\[/not-news-num\\]'si", "");
+
+    } else {
+
+        $tpl->set('{news}', $lang['all_user_news']);
+        $tpl->set_block("'\\[rss\\](.*?)\\[/rss\\]'si", "");
+        $tpl->set('{news-num}', 0);
+        $tpl->set_block("'\\[news-num\\](.*?)\\[/news-num\\]'si", "");
+        $tpl->set('[not-news-num]', "");
+        $tpl->set('[/not-news-num]', "");
+    }
+
+    if ($row['signature'] and $user_group[$row['user_group']]['allow_signature']) {
+
+        $tpl->set_block("'\\[signature\\](.*?)\\[/signature\\]'si", "\\1");
+        $tpl->set('{signature}', stripslashes($row['signature']));
+
+    } else {
+
+        $tpl->set_block("'\\[signature\\](.*?)\\[/signature\\]'si", "");
+        $tpl->set('{signature}', "");
+    }
+
+    if ($config['allow_alt_url']) {
+
+        $profile = $config['http_home_url'] . "user/" . urlencode($row['name']) . "/";
+
+    } else {
+
+        $profile = $PHP_SELF . "?subaction=userinfo&user=" . urlencode($row['name']);
+
+    }
+
+    $tpl->set('{profile}', $profile);
+    $tpl->set('{profile_m}', "onclick=\"ShowProfile('" . urlencode($row['name']) . "', '" . $profile . "', '" . $user_group[$member_id['user_group']]['admin_editusers'] . "'); return false;\"");
+
+    $xfieldsaction = "list";
+    $xfieldsadd    = false;
+    $xfieldsid     = $row['xfields'];
+    include(ENGINE_DIR . '/inc/userfields.php');
+    $tpl->set('{xfields}', $output);
+
+    $xfieldsdata = xfieldsdataload($row['xfields']);
+
+    foreach ($xfields as $value) {
+
+        $preg_safe_name = preg_quote($value[0], "'");
+
+        if ($value[5] != 1 OR ($is_logged AND $member_id['user_group'] == 1) OR ($is_logged AND $member_id['user_id'] == $row['user_id'])) {
+
+            if (empty($xfieldsdata[$value[0]])) {
+
+                $tpl->copy_template = preg_replace("'\\[xfgiven_{$preg_safe_name}\\](.*?)\\[/xfgiven_{$preg_safe_name}\\]'is", "", $tpl->copy_template);
+                $tpl->copy_template = str_replace("[xfnotgiven_{$preg_safe_name}]", "", $tpl->copy_template);
+                $tpl->copy_template = str_replace("[/xfnotgiven_{$preg_safe_name}]", "", $tpl->copy_template);
+
+            } else {
+
+                $tpl->copy_template = preg_replace("'\\[xfnotgiven_{$preg_safe_name}\\](.*?)\\[/xfnotgiven_{$preg_safe_name}\\]'is", "", $tpl->copy_template);
+                $tpl->copy_template = str_replace("[xfgiven_{$preg_safe_name}]", "", $tpl->copy_template);
+                $tpl->copy_template = str_replace("[/xfgiven_{$preg_safe_name}]", "", $tpl->copy_template);
+
+            }
+
+            $tpl->copy_template = preg_replace("'\\[xfvalue_{$preg_safe_name}\\]'i", stripslashes($xfieldsdata[$value[0]]), $tpl->copy_template);
+
+        } else {
+
+            $tpl->copy_template = preg_replace("'\\[xfgiven_{$preg_safe_name}\\](.*?)\\[/xfgiven_{$preg_safe_name}\\]'is", "", $tpl->copy_template);
+            $tpl->copy_template = preg_replace("'\\[xfvalue_{$preg_safe_name}\\]'i", "", $tpl->copy_template);
+            $tpl->copy_template = preg_replace("'\\[xfnotgiven_{$preg_safe_name}\\](.*?)\\[/xfnotgiven_{$preg_safe_name}\\]'is", "", $tpl->copy_template);
+
+        }
+
+    }
+
+    $tpl->compile('content');
+
+}
+
+
+
+
+
+
+
+$tpl->clear();
+$db->free($sql_result);
+
+
+$number = $searchcount;
+
+$tpl->result['content'] = $main_tpl . "<div class=\"row\">".$tpl->result['content']."</div>";
+$tpl->load_template('navigation.tpl');
+
+if ($cstart > 1) {
+    $prev = $cstart - 1;
+
+    if ($prev == 1)
+        $prev_page = $PHP_SELF . "?do=users" . $postfix;
+    else
+        $prev_page = $PHP_SELF . "?do=users&amp;cstart=" . $prev . $postfix;
+
+    $tpl->set_block("'\[prev-link\](.*?)\[/prev-link\]'si", "<a href=\"" . $prev_page . "\">\\1</a>");
+
+} else {
+
+    $tpl->set_block("'\[prev-link\](.*?)\[/prev-link\]'si", "<span>\\1</span>");
+    $no_prev = TRUE;
+
+}
+
+
+if ($number) {
+
+    $enpages_count = @ceil($count_all / $number);
+    $pages         = "";
+
+    if ($enpages_count <= 10) {
+
+        for ($j = 1; $j <= $enpages_count; $j++) {
+            if ($j != $cstart) {
+
+                if ($j == 1)
+                    $pages .= "<a href=\"$PHP_SELF?do=users{$postfix}\">$j</a> ";
+                else
+                    $pages .= "<a href=\"$PHP_SELF?do=users&amp;cstart=$j{$postfix}\">$j</a> ";
+
+            } else {
+                $pages .= "<span>$j</span> ";
+            }
+        }
+
+    } else {
+
+        $start      = 1;
+        $end        = 5;
+        $nav_prefix = "<span class=\"nav_ext\">{$lang['nav_trennen']}</span>";
+
+        if ($cstart > 0) {
+
+            if ($cstart > 6) {
+
+                $start = $cstart - 4;
+                $end   = $start + 8;
+
+                if ($end >= $enpages_count) {
+                    $start      = $enpages_count - 9;
+                    $end        = $enpages_count - 1;
+                    $nav_prefix = "";
+                } else
+                    $nav_prefix = "<span class=\"nav_ext\">{$lang['nav_trennen']}</span>";
+
+            }
+
+        }
+
+        if ($start >= 2) {
+            $pages .= "<a href=\"$PHP_SELF?do=users{$postfix}\">1</a> <span class=\"nav_ext\">...</span> ";
+        }
+
+        for ($j = $start; $j <= $end; $j++) {
+
+            if ($j != $cstart) {
+                $pages .= "<a href=\"$PHP_SELF?do=users&amp;cstart=$j{$postfix}\">$j</a> ";
+            } else {
+                $pages .= "<span>$j</span> ";
+            }
+
+        }
+
+        if ($cstart != $enpages_count) {
+            $pages .= $nav_prefix . "<a href=\"$PHP_SELF?do=users&amp;cstart={$enpages_count}{$postfix}\">{$enpages_count}</a>";
+        } else
+            $pages .= "<span>{$enpages_count}</span>";
+
+    }
+
+    $tpl->set('{pages}', $pages);
+
+}
+
+if ($number < $count_all and $i < $count_all) {
+    $next_page = $cstart + 1;
+
+    $next = $PHP_SELF . "?do=users&amp;cstart=" . $next_page . $postfix;
+
+    $tpl->set_block("'\[next-link\](.*?)\[/next-link\]'si", "<a href=\"" . $next . "\">\\1</a>");
+
+} else {
+
+    $tpl->set_block("'\[next-link\](.*?)\[/next-link\]'si", "<span>\\1</span>");
+    $no_next = TRUE;
+
+}
+
+
+if (!$no_prev or !$no_next) {
+
+    $tpl->compile('content');
+}
+
+$tpl->clear();
+
+?>
+]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/lastcomments.php">
+		<operation action="replace">
+			<searchcode><![CDATA[		$comments->build_comments('comments.tpl', 'lastcomments' );]]></searchcode>
+			<replacecode><![CDATA[		$comments->build_comments('lastcomments.tpl', 'lastcomments' );]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/classes/comments.class.php">
+		<operation action="replace">
+			<searchcode><![CDATA[		if( $sublevelmarker ) return "<ol class=\"comments-tree-list\">".$item."</ol>"; else return $item;]]></searchcode>
+			<replacecode><![CDATA[		if( $sublevelmarker ) return "<ol class=\"comments-tree-list rep\">".$item."</ol>"; else return $item;]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/search.php">
+		<operation action="replace">
+			<searchcode><![CDATA[                        <input type="button" class="bbcodes" style="margin:0px 20px 0 0px;" name="dosearch" id="dosearch" value="{$lang['s_fstart']}" onclick="javascript:list_submit(-1); return false;" />
+                        <input type="button" class="bbcodes" style="margin:0px 20px 0 20px;" name="doclear" id="doclear" value="{$lang['s_fstop']}" onclick="javascript:clearform('fullsearch'); return false;" />
+                        <input type="reset" class="bbcodes" style="margin:0px 20px 0 20px;" name="doreset" id="doreset" value="{$lang['s_freset']}" />]]></searchcode>
+			<replacecode><![CDATA[                        <input type="button" class="btn btn-secondary" style="margin:0px 20px 0 0px;" name="dosearch" id="dosearch" value="{$lang['s_fstart']}" onclick="javascript:list_submit(-1); return false;" />
+                        <input type="button" class="btn btn-secondary" style="margin:0px 20px 0 20px;" name="doclear" id="doclear" value="{$lang['s_fstop']}" onclick="javascript:clearform('fullsearch'); return false;" />
+                        <input type="reset" class="btn btn-secondary" style="margin:0px 20px 0 20px;" name="doreset" id="doreset" value="{$lang['s_freset']}" />]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[		$link_full_search = "<input type=\"button\" class=\"bbcodes\" name=\"dofullsearch\" id=\"dofullsearch\" value=\"{$lang['s_ffullstart']}\" onclick=\"javascript:full_submit(1); return false;\" />";]]></searchcode>
+			<replacecode><![CDATA[		$link_full_search = "<input type=\"button\" class=\"btn btn-secondary\" name=\"dofullsearch\" id=\"dofullsearch\" value=\"{$lang['s_ffullstart']}\" onclick=\"javascript:full_submit(1); return false;\" />";]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[                <input type="button" class="bbcodes" name="dosearch" id="dosearch" value="{$lang['s_fstart']}" onclick="javascript:list_submit(-1); return false;" />]]></searchcode>
+			<replacecode><![CDATA[                <input type="button" class="btn btn-secondary" name="dosearch" id="dosearch" value="{$lang['s_fstart']}" onclick="javascript:list_submit(-1); return false;" />]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/functions.php">
+		<operation action="replace">
+			<searchcode><![CDATA[		$sort[] = "<li" . $value['image'] . "><a href=\"#\" onclick=\"dle_change_sort('{$value['value']}','{$value['direction']}'); return false;\">" . $value['name'] . "</a></li>";]]></searchcode>
+			<replacecode><![CDATA[		$sort[] = "<li" . $value['image'] . "><a href=\"#\" class=\"dropdown-item\" onclick=\"dle_change_sort('{$value['value']}','{$value['direction']}'); return false;\">" . $value['name'] . "</a></li>";]]></replacecode>
+		</operation>
+		<operation action="replace">
+			<searchcode><![CDATA[$sort = "<form name=\"news_set_sort\" id=\"news_set_sort\" method=\"post\"><ul class=\"sort\">" . implode( $sort ) . "</ul>";]]></searchcode>
+			<replacecode><![CDATA[$sort = "<form name=\"news_set_sort\" id=\"news_set_sort\" method=\"post\"><ul class=\"sort p-0\">" . implode( $sort ) . "</ul>";]]></replacecode>
+		</operation>
+	</file>
+</dleplugin>
