@@ -48,6 +48,13 @@
 
 {include file="engine/modules/mainstats.php"}
 
+<div class="card mb-5 f90">
+	<h6 class="card-header">Теги</h6>
+	<div class="card-body p-2 text-center">
+		{tags}
+	</div>
+</div>
+
 <div class="card w-100 mb-5 text-white bgpath bg-secondary f09">
 	<div class="card-body">
 		<div class="spinner-grow spinner-grow-sm float-right" role="status">
