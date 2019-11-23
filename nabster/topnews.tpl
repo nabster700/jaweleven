@@ -7,7 +7,7 @@
         [xfnotgiven_poster]<img src="/templates/nabster/dleimages/no_image.jpg" class="rounded mr-2" alt="{title}" style="width:70px;">[/xfnotgiven_poster]
           </a>
           <div class="media-body">
-            <h6 class="mb-0" style="font-family: arial;font-size: 84%;overflow: auto;"><span class="masha_index masha_index41" rel="41"></span><b>{title limit="33"}</b></h6>
+            <h6 class="mb-0" style="font-family: arial;font-size: 84%;overflow: auto;"><span class="masha_index masha_index41" rel="41"></span><b>{title}</b></h6>
             <small class="text-muted" style="font-family: arial;font-size: 84%;overflow: auto;"><span class="masha_index masha_index42" rel="42"></span>{category}</small>
           </div>
         </div>
