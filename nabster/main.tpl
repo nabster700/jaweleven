@@ -100,6 +100,7 @@
           </div>
         </div>
         <div class="col-md-9">
+          [available=main]
                   <div class="main-content">
                      <div class="owl-carousel owl-theme">
                         {custom category="1-1000" template="topthems" limit="10" order="date" sort="desc" cache="no"}
@@ -110,7 +111,6 @@
                         </div>
                      </div>
                   </div>
-          [available=main]
           <div class="row">
             <div class="col-md-6 d-none d-md-block">
               <div class="card mb-4">
