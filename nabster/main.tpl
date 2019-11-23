@@ -42,7 +42,37 @@
     });
   });
 </script>
+<script>
+      $(document).ready(function(){
+      	$('.owl-carousel').owlCarousel({
+      	    loop:true,
+      	    margin:30,
+      			autoplay:3000,
+      	    responsiveClass:true,
+      			dots : false,
 
+      	    responsive:{
+      	        0:{
+      	            items:1,
+      	            nav:false
+      	        },
+      					360:{
+      	            items:1,
+      	            nav:false
+      	        },
+      	        600:{
+      	            items:2,
+      	            nav:false
+      	        },
+      	        1000:{
+      	            items:3,
+      	            nav:false,
+      	            loop:false
+      	        }
+      	    }
+      	})
+      });
+</script>
 <body>
   <div class="container tb">
     {include file="modules/menu.tpl"}
@@ -70,6 +100,16 @@
           </div>
         </div>
         <div class="col-md-9">
+                  <div class="main-content">
+                     <div class="owl-carousel owl-theme">
+                        {custom category="1-1000" template="topthems" limit="10" order="date" sort="desc" cache="no"}
+                     </div>
+                     <div class="owl-theme ">
+                        <div class="owl-controls">
+                           <div class="custom-nav owl-nav"></div>
+                        </div>
+                     </div>
+                  </div>
           [available=main]
           <div class="row">
             <div class="col-md-6 d-none d-md-block">
