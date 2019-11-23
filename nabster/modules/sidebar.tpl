@@ -21,14 +21,15 @@
   {catmenu}
 </div>
 
-<div class="card mb-5">
-<h6 class="card-header">Лучшие новости</h6>
-{topnews}
+<div class="card mb-5 f90">
+	<h6 class="card-header">Лучшие новости</h6>
+	<div class="list-group list-group-flush">
+		{topnews}
+	</div>
 </div>
 
 <div class="card mb-5 f90">
   <h6 class="card-header">Комментарии</h6>
-
 	<div class="list-group list-group-flush">
 	{customcomments template="lastcomments" available="global" from="0" limit="5" order="date" sort="desc" cache="no"}
 	<a href="/index.php?do=lastcomments" class="list-group-item list-group-item-action" style="padding: 10px;">
