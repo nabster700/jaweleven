@@ -49,7 +49,7 @@
 <div class="card [fixed]fxd[/fixed] mb-5 ">
    <div class="card-body">
       <div class="main-content" id="ggwp">
-         <div class="owl-carousel owl-theme" id="gallery">
+         <div class="owl-carousel owl-theme xfieldimagegallery skrinshoty" id="gallery">
             {poster}
          </div>
          <div class="owl-theme" id="ggwp">
