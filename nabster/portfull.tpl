@@ -23,7 +23,7 @@
       	        1000:{
       	            items:3,
       	            nav:false,
-      	            loop:false
+      	            loop:true
       	        }
       	    }
       	})
@@ -48,16 +48,6 @@
 </script>
 <div class="card [fixed]fxd[/fixed] mb-5 ">
    <div class="card-body">
-      <div class="main-content" id="ggwp">
-         <div class="owl-carousel owl-theme xfieldimagegallery skrinshoty" id="gallery">
-            {poster}
-         </div>
-         <div class="owl-theme" id="ggwp">
-            <div class="owl-controls">
-               <div class="custom-nav owl-nav"></div>
-            </div>
-         </div>
-     <br></div>
       [not-group=5]
       <div class="dropdown float-right">
          <button class="text-black-50 btn btn-sm btn-light dropdown-toggle pt-1" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -72,6 +62,7 @@
             [/del-favorites]
             [group=1,2,3]
             <a class="dropdown-item" href="/admin.php?mod=editnews&action=editnews&id={news-id}" target="_blank">Редактировать</a>
+            <a class="dropdown-item" onclick="ajax_prep_for_edit('{news-id}', 'full'); return false;" href="#">Быстрое редактирование</a>
             [/group]
             [complaint]
             <button class="dropdown-item" type="button">Пожаловаться</button>
@@ -83,6 +74,16 @@
       <h1 class="text-dark mb-0">{title}</h1>
       <p class="auth mt-1 mb-2" style="font-size: 13px;opacity: 0.7;"><i class="icon-puzzle"></i> {link-category}</p>
       {full-story} [pages]<br>{pages}[/pages] [poll]{poll}[/poll]
+      <div class="main-content my-3" id="ggwp">
+         <div class="owl-carousel owl-theme xfieldimagegallery skrinshoty" id="gallery">
+            {poster}
+         </div>
+         <div class="owl-theme" id="ggwp">
+            <div class="owl-controls">
+               <div class="custom-nav owl-nav"></div>
+            </div>
+         </div>
+        </div>
       [edit-date]
       <div class="alert alert-warning mb-0 mt-3 p-2 pl-3 pr-3 f90" role="alert">
          Новость отредактировал: <b>{editor}</b> - {edit-date}<br>

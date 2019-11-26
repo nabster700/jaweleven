@@ -3,7 +3,7 @@
 	<name>nabster (Шаблон)</name>
 	<description></description>
 	<icon></icon>
-	<version>7.2</version>
+	<version>7.3</version>
 	<dleversion>13.0</dleversion>
 	<versioncompare>greater</versioncompare>
 	<upgradeurl></upgradeurl>
@@ -273,6 +273,12 @@ else $tpl->set( '{foto}', "{THEME}/dleimages/noavatar.png" );]]></replacecode>
 		<operation action="after">
 			<searchcode><![CDATA[elseif ($do == 'pm') $nam_e = $lang['title_pm'];]]></searchcode>
 			<replacecode><![CDATA[elseif ($do == 'users') $nam_e = "Список пользователей";]]></replacecode>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[switch ( $do ) {]]></searchcode>
+			<replacecode><![CDATA[case "login" : 
+include (DLEPlugins::Check(ENGINE_DIR . '/modules/login.php'));
+break;]]></replacecode>
 		</operation>
 	</file>
 	<file name="engine/modules/addnews.php">
@@ -1189,6 +1195,184 @@ $tpl->clear();
 		<operation action="replace">
 			<searchcode><![CDATA[$sort = "<form name=\"news_set_sort\" id=\"news_set_sort\" method=\"post\"><ul class=\"sort\">" . implode( $sort ) . "</ul>";]]></searchcode>
 			<replacecode><![CDATA[$sort = "<form name=\"news_set_sort\" id=\"news_set_sort\" method=\"post\"><ul class=\"sort p-0\">" . implode( $sort ) . "</ul>";]]></replacecode>
+		</operation>
+	</file>
+	<file name="engine/modules/login.php">
+		<operation action="create">
+			<replacecode><![CDATA[<?php
+
+	if( ! defined( 'DATALIFEENGINE' ) ) {
+		die( "Hacking attempt!" );
+	}
+
+if($config['allow_social'] AND $config['allow_registration'] AND !$is_logged) {
+
+	include_once (ENGINE_DIR . '/data/socialconfig.php');
+
+	if( !$_SESSION['state'] ) $_SESSION['state'] = md5(uniqid(rand(), TRUE));
+
+	if ( $social_config['vk'] ) {
+
+		$social_params = array(
+			'client_id'     => $social_config['vkid'],
+			'redirect_uri'  => $config['http_home_url'] . "index.php?do=auth-social&provider=vk",
+			'scope' => 'offline,wall,email',
+			'state' => $_SESSION['state'],
+			'response_type' => 'code'
+		);
+
+		$tpl->set( '[vk]', "" );
+		$tpl->set( '[/vk]', "" );
+		$tpl->set( '{vk_url}', 'http://oauth.vk.com/authorize'.'?' . http_build_query($social_params) );
+
+	} else {
+
+		$tpl->set_block( "'\\[vk\\](.*?)\\[/vk\\]'si", "" );
+		$tpl->set( '{vk_url}', '' );
+	}
+
+	if ( $social_config['od'] ) {
+
+		$social_params = array(
+			'client_id'     => $social_config['odid'],
+			'redirect_uri'  => $config['http_home_url'] . "index.php?do=auth-social&provider=od",
+			'response_type' => 'code'
+		);
+
+		$tpl->set( '[odnoklassniki]', "" );
+		$tpl->set( '[/odnoklassniki]', "" );
+		$tpl->set( '{odnoklassniki_url}', 'http://www.odnoklassniki.ru/oauth/authorize'.'?' . http_build_query($social_params) );
+
+	} else {
+
+		$tpl->set_block( "'\\[odnoklassniki\\](.*?)\\[/odnoklassniki\\]'si", "" );
+		$tpl->set( '{odnoklassniki_url}', '' );
+	}
+
+	if ( $social_config['fc'] ) {
+
+		$social_params = array(
+			'client_id'     => $social_config['fcid'],
+			'redirect_uri'  => $config['http_home_url'] . "index.php?do=auth-social&provider=fc",
+			'scope' => 'public_profile, email',
+			'display' => 'popup',
+			'state' => $_SESSION['state'],
+			'response_type' => 'code'
+		);
+
+		$tpl->set( '[facebook]', "" );
+		$tpl->set( '[/facebook]', "" );
+		$tpl->set( '{facebook_url}', 'https://www.facebook.com/dialog/oauth'.'?' . http_build_query($social_params) );
+
+	} else {
+
+		$tpl->set_block( "'\\[facebook\\](.*?)\\[/facebook\\]'si", "" );
+		$tpl->set( '{facebook_url}', '' );
+	}
+
+
+	if ( $social_config['google'] ) {
+
+		$social_params = array(
+			'client_id'     => $social_config['googleid'],
+			'redirect_uri'  => $config['http_home_url'] . "index.php?do=auth-social&provider=google",
+			'scope'         => 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+			'state' => $_SESSION['state'],
+			'response_type' => 'code'
+		);
+
+		$tpl->set( '[google]', "" );
+		$tpl->set( '[/google]', "" );
+		$tpl->set( '{google_url}', 'https://accounts.google.com/o/oauth2/auth'.'?' . http_build_query($social_params) );
+
+	} else {
+
+		$tpl->set_block( "'\\[google\\](.*?)\\[/google\\]'si", "" );
+		$tpl->set( '{google_url}', '' );
+	}
+
+	if ( $social_config['mailru'] ) {
+
+		$social_params = array(
+			'client_id'     => $social_config['mailruid'],
+			'redirect_uri'  => $config['http_home_url'] . "index.php?do=auth-social&provider=mailru",
+			'state' => $_SESSION['state'],
+			'response_type' => 'code'
+		);
+
+		$tpl->set( '[mailru]', "" );
+		$tpl->set( '[/mailru]', "" );
+		$tpl->set( '{mailru_url}', 'https://connect.mail.ru/oauth/authorize'.'?' . http_build_query($social_params) );
+
+	} else {
+
+		$tpl->set_block( "'\\[mailru\\](.*?)\\[/mailru\\]'si", "" );
+		$tpl->set( '{mailru_url}', '' );
+	}
+
+	if ( $social_config['yandex'] ) {
+
+		$social_params = array(
+			'client_id'     => $social_config['yandexid'],
+			'redirect_uri'  => $config['http_home_url'] . "index.php?do=auth-social&provider=yandex",
+			'state' => $_SESSION['state'],
+			'response_type' => 'code'
+		);
+
+		$tpl->set( '[yandex]', "" );
+		$tpl->set( '[/yandex]', "" );
+		$tpl->set( '{yandex_url}', 'https://oauth.yandex.ru/authorize'.'?' . http_build_query($social_params) );
+
+	} else {
+
+		$tpl->set_block( "'\\[yandex\\](.*?)\\[/yandex\\]'si", "" );
+		$tpl->set( '{yandex_url}', '' );
+	}
+
+} else {
+
+	$_SESSION['state'] = false;
+
+	$tpl->set_block( "'\\[vk\\](.*?)\\[/vk\\]'si", "" );
+	$tpl->set( '{vk_url}', '' );
+	$tpl->set_block( "'\\[odnoklassniki\\](.*?)\\[/odnoklassniki\\]'si", "" );
+	$tpl->set( '{odnoklassniki_url}', '' );
+	$tpl->set_block( "'\\[facebook\\](.*?)\\[/facebook\\]'si", "" );
+	$tpl->set( '{facebook_url}', '' );
+	$tpl->set_block( "'\\[google\\](.*?)\\[/google\\]'si", "" );
+	$tpl->set( '{google_url}', '' );
+	$tpl->set_block( "'\\[mailru\\](.*?)\\[/mailru\\]'si", "" );
+	$tpl->set( '{mailru_url}', '' );
+	$tpl->set_block( "'\\[yandex\\](.*?)\\[/yandex\\]'si", "" );
+	$tpl->set( '{yandex_url}', '' );
+}
+
+	if($is_logged) {
+
+		$tpl->load_template( 'login_ok.tpl' );
+
+		$name = $member_id['name'];
+		$tpl->set('{name}', $name);
+
+		$tpl->compile( 'content' );
+		$tpl->clear();
+
+	} else {
+
+		$tpl->load_template( 'login_page.tpl' );
+
+		$tpl->set( '{registration-link}', $PHP_SELF . "?do=register" );
+		$tpl->set( '{lostpassword-link}', $PHP_SELF . "?do=lostpassword" );
+		$tpl->set( '{login-method}', $config['auth_metod'] ? "E-Mail:" : $lang['login_metod'] );
+		$tpl->copy_template = "<form  method=\"post\" action=\"\">\n" . $tpl->copy_template . "
+<input name=\"login\" type=\"hidden\" id=\"login\" value=\"submit\">
+</form>";
+		$tpl->compile( 'content' );
+		$tpl->clear();
+
+	}
+
+?>]]></replacecode>
 		</operation>
 	</file>
 </dleplugin>

@@ -48,9 +48,10 @@
                   [del-favorites]
                   <button class="dropdown-item" type="button">Удалить из закладок</button>
                   [/del-favorites]
-                  [group=1,2,3]
-                  <a class="dropdown-item" href="/admin.php?mod=editnews&action=editnews&id={news-id}" target="_blank">Редактировать</a>
-                  [/group]
+            [group=1,2,3]
+            <a class="dropdown-item" href="/admin.php?mod=editnews&action=editnews&id={news-id}" target="_blank">Редактировать</a>
+            <a class="dropdown-item" onclick="ajax_prep_for_edit('{news-id}', 'full'); return false;" href="#">Быстрое редактирование</a>
+            [/group]
                   [complaint]
                   <button class="dropdown-item" type="button">Пожаловаться</button>
                   [/complaint]

@@ -78,11 +78,18 @@
             <input type="checkbox" value="1" name="login_not_save" class="custom-control-input" id="customSwitch1">
             <label class="custom-control-label" for="customSwitch1">Не запоминать данные</label>
          </div>
-         <button type="submit" class="btn btn-primary btn-block mb-2"> Войти</button>
+         <button type="submit" class="btn btn-primary btn-block mb-2"> Авторизоваться</button>
          <input class="form-control" name="login" type="hidden" id="login" value="submit" />
       </form>
       <a class="btn btn-secondary btn-block mb-2" href="{lostpassword-link}">Я забыл свой пароль</a>
-      <a class="btn btn-secondary btn-block mb-2" href="{registration-link}">Регистрация</a>
+        <div class="row">
+    	<div class="col-md-6 px-2">
+                  <a class="btn btn-secondary btn-block mb-2" href="/index.php?do=login">Вход</a>
+        </div> 
+        <div class="col-md-6 px-2">
+                  <a class="btn btn-secondary btn-block mb-2" href="{registration-link}">Регистрация</a>
+        </div>
+    </div>
    </div>
 </div>
 [/group]
