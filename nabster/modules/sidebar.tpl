@@ -31,11 +31,11 @@
 <div class="card mb-5 f90">
   <h6 class="card-header">Комментарии</h6>
 	<div class="list-group list-group-flush">
-	{customcomments template="lastcomments" available="global" from="0" limit="5" order="date" sort="desc" cache="no"}
+	{customcomments template="lastcomments_block" available="global" from="0" limit="5" order="date" sort="desc" cache="no"}
 	<a href="/index.php?do=lastcomments" class="list-group-item list-group-item-action" style="padding: 10px;">
 	<div class="media">
 	  <img class="d-flex mr-2 rounded" src="{THEME}/images/coms.svg" style="width: 24px;height: 24px;object-fit: cover;margin: 0 5px 0 0;">
-	  <div class="media-body text-muted" style="font-size: 84%;overflow: auto;">
+	  <div class="media-body text-muted"  style="font-size: 0.9rem;">
 	    <div class="mt-0"><b style="font-family: arial;"><i class="fa fa-share" aria-hidden="true"></i> Все комментарии..</b></div>
 	    Полный список последних комментариев
 	  </div>

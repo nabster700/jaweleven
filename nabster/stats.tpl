@@ -49,7 +49,7 @@
          </div>
          <div class="card-footer">
             <div class="btn-group w-100">
-               <a href="/index.php?do=users" class="btn btn-secondary w-50">Все пользователи</a>
+               <a href="/index.php?do=users" class="btn btn-secondary w-50">Пользователи</a>
                <a href="/index.php?do=lastcomments" class="btn btn-secondary w-50">Комментарии</a>
             </div>
          </div>

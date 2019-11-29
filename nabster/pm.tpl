@@ -2,16 +2,16 @@
    <div class="card-body">
       <h5 class="card-title">Личные сообщения</h5>
       <div class="row">
-         <div class="col-md-7">
+         <div class="col-md-8">
             <ul class="list-inline ">
+               <li class="list-inline-item">[new_pm]<button type="button" class="btn btn-sm btn-secondary">Создать</button>[/new_pm]</li>
                <li class="list-inline-item">[inbox]<button type="button" class="btn btn-sm btn-secondary">Входящие</button>[/inbox]</li>
                <li class="list-inline-item">[outbox]<button type="button" class="btn btn-sm btn-secondary">Отправленные</button>[/outbox]</li>
-               <li class="list-inline-item">[new_pm]<button type="button" class="btn btn-sm btn-secondary">Создать сообщение</button>[/new_pm]</li>
             </ul>
          </div>
-         <div class="col-md-5">
+         <div class="col-md-4">
             <ul class="list-unstyled m-0">
-               <li>Ящик заполнен на <b>{proc-pm-limit}%</b>  <small>({pm-limit} сообщений)</small></li>
+               <li>Ящик заполнен на <b>{proc-pm-limit}%</b><br><small>({pm-limit} сообщений)</small></li>
                <li>
                   <div class="progress">
                      <div class="progress-bar" role="progressbar" style="width: {proc-pm-limit}%;" aria-valuenow="{proc-pm-limit}" aria-valuemin="0" aria-valuemax="100">{proc-pm-limit}%</div>

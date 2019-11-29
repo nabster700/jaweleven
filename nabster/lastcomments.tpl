@@ -1,9 +1,11 @@
-<a href="{news-link}" class="list-group-item list-group-item-action" style="padding: 10px;" data-trigger="hover focus" data-toggle="popover" data-content="{login}, {date}">
-<div class="media">
-  <img class="d-flex mr-2 rounded" src="{foto}" style="width: 24px;height: 24px;border-radius: 50%;object-fit: cover;margin: 0 5px 0 0;">
-  <div class="media-body" style="font-size: 84%;overflow: auto;">
-    <div class="mt-0"><b style="font-family: arial;">{news-title}</b></div>
-    {comment limit="100"}
+<div class="card mb-2">
+  <div class="card-header">
+      <h5 class="shtitle m-0"> <a href="{news-link}">{news-title}</a> </h5>
+  </div>
+  <div class="card-body">
+    <blockquote class="blockquote mb-0">
+      <p style="color: #6b6e84;font-size: 0.9rem;">{comment limit="300"}</p>
+      <footer style="color: #6b6e84;font-size: 0.8rem;" class="blockquote-footer">{author}, {date}</footer>
+    </blockquote>
   </div>
 </div>
-</a>

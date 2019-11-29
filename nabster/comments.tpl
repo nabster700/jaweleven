@@ -1,4 +1,4 @@
-<div style="font-size: 14px;" class="cd-timeline-block mb-3">
+<div style="font-size: 0.9rem;" class="cd-timeline-block mb-3">
    <div class="cd-timeline-img cd-picture rounded" [online] style="border-color:#8CC152!important;" [/online] [online]data-toggle="tooltip" data-placement="top" title="В сети"[/online]>
    [profile]<img class="rounded" src="{foto}" alt="{login}">[/profile]
 </div>

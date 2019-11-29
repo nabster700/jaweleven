@@ -60,7 +60,7 @@
             [/not-group]
             <h4 class="shtitle m-0"><a href="{full-link}" class="text-dark">[poll] <i class="zmdi zmdi-sort-amount-desc text-muted" data-toggle="tooltip" data-placement="top" title="Опрос"></i> [/poll]{title}</a></h4>
             <p class="auth mt-1" style="font-size: 13px;opacity: 0.7;"><i class="icon-puzzle"></i> {link-category}</p>
-            <div class="noimg" style="color: #6b6e84;font-size: 0.9rem;">{short-story limit="200"}</div>
+            <div class="noimg" style="font-size: 0.9rem;">{short-story limit="200"}</div>
             [tags]
             <div class="tags">{tags}</div>
             [/tags]

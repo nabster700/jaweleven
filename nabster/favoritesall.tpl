@@ -23,7 +23,7 @@
                </div>
             </div>
             [/not-group]
-            <h4 class="shtitle" style="margin-bottom: 1.1rem;"><a href="{full-link}" class="text-dark">[fixed]<span class="badge badge-warning" data-toggle="tooltip" data-placement="top" title="В топе"><i class="fa fa-angle-double-up" aria-hidden="true"></i></span>[/fixed] [poll] <i class="zmdi zmdi-sort-amount-desc text-muted" data-toggle="tooltip" data-placement="top" title="Опрос"></i> [/poll]{title}</a></h4>
+            <h4 class="shtitle" style="margin-bottom: 1.1rem;"><a href="{full-link}" class="text-dark">[poll] <i class="zmdi zmdi-sort-amount-desc text-muted" data-toggle="tooltip" data-placement="top" title="Опрос"></i> [/poll]{title}</a></h4>
             <div class="noimg" style="color: #6b6e84;font-size: 0.9rem;">{short-story limit="200"}</div>
          </div>
       </div>

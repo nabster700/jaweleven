@@ -67,7 +67,7 @@
                <img src="{THEME}/images/gear.svg" alt="Movie" style="background: #fff;" class="fa-spin">
             </div>
             <div class="cd-timeline-content">
-               <h2 style="font-weight:normal;">Комментарии к статье отключены администрацией.</h2>
+               <h5>Комментарии к статье отключены администрацией.</h5>
                <p>Комментарии отключены..</p>
             </div>
          </div>
@@ -78,7 +78,7 @@
                <img src="{THEME}/images/gear.svg" alt="Movie" style="background: #fff;" class="fa-spin">
             </div>
             <div class="cd-timeline-content">
-               <h2 style="font-weight:normal;">Нет комментариев. %username_login%, не желаешь оставить первый комментарий?</h2>
+               <h5>В данной публикации отсутствуют комментарии !</h5>
                <p>Перед публикацией, советую ознакомится с <a href="/index.php?do=rules" target="_blank">правилами!</a></p>
             </div>
          </div>
