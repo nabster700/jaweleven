@@ -26,13 +26,12 @@
         <div class="col-md-12">
             <a href="{full-link}">
              <div class="box">
-                <img class="img-fluid rounded mb-3 mb-md-0 w-100" src="{image-1}" alt="{title}" style="max-height: 200px;object-fit: cover;">
-  					<div class="overbox">
-						<div class="title overtext"> {title limit="25"} </div>
-						<div class="tagline overtext"> {short-story limit="80"} </div>
-					</div>
+		<img class="img-fluid rounded mb-3 mb-md-0 w-100" src="{image-1}" alt="{title}" style="max-height: 200px;object-fit: cover;">
                 </div>
             </a>
+  			<div class="card-body p-1">
+    		<p class="card-text text-truncate text-center">{title}</p>
+			</div>
          </div>
       </div>
    </div>

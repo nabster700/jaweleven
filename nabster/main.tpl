@@ -23,7 +23,25 @@
   <link rel="stylesheet" href="{THEME}/css/owl.carousel.css">
   <link rel="stylesheet" href="{THEME}/css/owl.theme.css">
   <link rel="stylesheet" href="{THEME}/css/bbcode.css">
+  <link rel="stylesheet" href="{THEME}/css/scrollups.css">
 </head>
+<script>
+$(function() {
+  $('.scrollup').click(function() {
+    $("html, body").animate({
+      scrollTop:0
+    },1000);
+  })
+})
+$(window).scroll(function() {
+  if ($(this).scrollTop()>200) {
+    $('.scrollup').fadeIn();
+  }
+  else {
+    $('.scrollup').fadeOut();
+  }
+});
+</script>
 <script>
   $(document).ready(function() {
     $submenu = $('.child-menu-ul');
@@ -100,7 +118,7 @@
           </div>
         </div>
         <div class="col-md-9">
-          [available=main]
+			[available=main]
                   <div class="main-content">
                      <div class="owl-carousel owl-theme">
                         {custom category="1-1000" template="topthems" limit="10" order="date" sort="desc" cache="no"}
@@ -182,5 +200,8 @@
   </div>
 </div>
 [/group]
-
+<div class="scrollup">
+  <!-- Иконка fa-chevron-up (Font Awesome) -->
+  <i class="fa fa-chevron-up"></i>
+</div>
 </html>

@@ -1,0 +1,16 @@
+div.scrollup {
+    position: fixed;
+    color: #fff;
+    background-color: #535b9a;
+    right: 20px;
+    bottom: 20px;
+    padding: 4px 8px 7px 8px;
+    font-size: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: none;
+    text-align: center;
+}
+div.scrollup:hover {
+  	background-color: #000;
+}

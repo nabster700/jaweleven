@@ -7,7 +7,7 @@
 	
   <li class="list-group-item d-flex justify-content-between align-items-center">
     Имя
-    <span>{fullname}[not-fullname]Пользователь VA[/not-fullname]</span>
+    <span>{fullname}[not-fullname]Пользователь[/not-fullname]</span>
   </li>
   	
   <li class="list-group-item d-flex justify-content-between align-items-center">
