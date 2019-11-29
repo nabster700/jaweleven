@@ -3,7 +3,7 @@
 	<name>nabster (Шаблон)</name>
 	<description></description>
 	<icon></icon>
-	<version>7.3</version>
+	<version>7.5</version>
 	<dleversion>13.0</dleversion>
 	<versioncompare>greater</versioncompare>
 	<upgradeurl></upgradeurl>
@@ -346,7 +346,7 @@ $uStats = <<<HTML
 	<a href="/lastnews/" class="list-group-item list-group-item-action" style="padding: 0.5rem 1.25rem;;">
 	<div class="media">
 		<i style="font-size: 2rem;" class="fa fa-square-o d-flex mr-2 align-self-center text-primary" aria-hidden="true"></i>
-		<div class="media-body" style="font-size: 84%;overflow: auto;">
+		<div class="media-body" style="font-size: 0.9rem;">
 			<div class="mt-0"><b style="font-family: arial;">Всего публикаций: $stats_news</b></div>
 			<span class="text-muted">Добавлено за сутки: +$stats_day</span>
 		</div>
@@ -356,7 +356,7 @@ $uStats = <<<HTML
 	<a href="/blog/" class="list-group-item list-group-item-action" style="padding: 0.5rem 1.25rem;;">
 	<div class="media">
 		<i style="font-size: 2rem;" class="fa fa-square-o d-flex mr-2 align-self-center text-danger" aria-hidden="true"></i>
-	  <div class="media-body" style="font-size: 84%;overflow: auto;">
+	  <div class="media-body" style="font-size: 0.9rem;">
 	    <div class="mt-0"><b style="font-family: arial;">Записей в блоге: $cat_day</b></div>
 	    <span class="text-muted">Добавлено за сутки: +$stats_day</span>
 	  </div>
@@ -366,7 +366,7 @@ $uStats = <<<HTML
 	<a href="/index.php?do=lastcomments" class="list-group-item list-group-item-action" style="padding: 0.5rem 1.25rem;;">
 	<div class="media">
 	  <i style="font-size: 2rem;" class="fa fa-square-o d-flex mr-2 align-self-center text-success" aria-hidden="true"></i>
-	  <div class="media-body" style="font-size: 84%;overflow: auto;">
+	  <div class="media-body" style="font-size: 0.9rem;">
 	    <div class="mt-0"><b style="font-family: arial;">Комментариев: $count_comments</b></div>
 	    <span class="text-muted">Добавлено за сутки: +$comments_day</span>
 	  </div>
@@ -376,7 +376,7 @@ $uStats = <<<HTML
 	<a href="/index.php?do=users" class="list-group-item list-group-item-action" style="padding: 0.5rem 1.25rem;;">
 	<div class="media">
 	  <i style="font-size: 2rem;" class="fa fa-square-o d-flex mr-2 align-self-center text-warning" aria-hidden="true"></i>
-	  <div class="media-body" style="font-size: 84%;overflow: auto;">
+	  <div class="media-body" style="font-size: 0.9rem;">
 	    <div class="mt-0"><b style="font-family: arial;">Пользователей: $count_users</b></div>
 	    <span class="text-muted">Добавлено за сутки: +$user_day</span>
 	  </div>
@@ -386,7 +386,7 @@ $uStats = <<<HTML
 	<a href="/statistics.html" class="list-group-item list-group-item-action" style="padding: 0.5rem 1.25rem;;">
 	<div class="media">
 		<img class="d-flex mr-2 align-self-center" src="{THEME}/images/stats.svg" style="width: 24px;height: 24px;object-fit: cover;margin: 0 5px 0 0;">
-		<div class="media-body text-muted" style="font-size: 84%;overflow: auto;">
+		<div class="media-body text-muted" style="font-size: 0.9rem;">
 			<div class="mt-0"><b style="font-family: arial;"><i class="fa fa-share" aria-hidden="true"></i> Полная статистика..</b></div>
 			Подробная статистика сайта
 		</div>
