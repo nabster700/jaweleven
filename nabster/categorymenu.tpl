@@ -6,7 +6,7 @@
             [/root]
             [item]
             <li class="child-menu" id="cat{id}">
-               <a href="{url}" [active]class="active1"[/active]><img src="{icon}" class="catimg"><span> {name}</span> [isparent]<span class="fa fa-angle-right toggle-right"></span>[/isparent]</a>
+               <a href="{url}" [active]class="active1"[/active]><img src="{icon}" class="catimg"><span> {name}</span> [isparent]<span class="fa fa-angle-down toggle-right"></span>[/isparent]</a>
                [sub-prefix]
                <ul class="child-menu-ul">
                   [/sub-prefix]

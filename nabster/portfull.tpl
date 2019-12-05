@@ -1,7 +1,7 @@
 <script>
       $(document).ready(function(){
       	$('.owl-carousel').owlCarousel({
-      	    loop:true,
+      	    loop:false,
       	    margin:30,
       			autoplay:3000,
       	    responsiveClass:true,
@@ -12,7 +12,7 @@
       	            items:1,
       	            nav:false
       	        },
-      					360:{
+      			360:{
       	            items:1,
       	            nav:false
       	        },
@@ -23,7 +23,7 @@
       	        1000:{
       	            items:3,
       	            nav:false,
-      	            loop:true
+      	            loop:false
       	        }
       	    }
       	})
@@ -77,11 +77,6 @@
       <div class="main-content my-3" id="ggwp">
          <div class="owl-carousel owl-theme xfieldimagegallery skrinshoty" id="gallery">
             {poster}
-         </div>
-         <div class="owl-theme" id="ggwp">
-            <div class="owl-controls">
-               <div class="custom-nav owl-nav"></div>
-            </div>
          </div>
         </div>
       [edit-date]

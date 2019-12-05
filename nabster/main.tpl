@@ -60,6 +60,7 @@ $(window).scroll(function() {
     });
   });
 </script>
+[available=main]
 <script>
       $(document).ready(function(){
       	$('.owl-carousel').owlCarousel({
@@ -91,6 +92,7 @@ $(window).scroll(function() {
       	})
       });
 </script>
+[/available]
 <body>
   <div class="container tb">
     {include file="modules/menu.tpl"}
@@ -166,7 +168,7 @@ $(window).scroll(function() {
               </div>
             </div>
           </div>
-          [/available] {info}{content}
+          [/available]{info}{content}
         </div>
         <div class="col-md-3">
           {include file="modules/sidebar.tpl"}

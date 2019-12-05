@@ -3,7 +3,7 @@
 	<name>nabster (Шаблон)</name>
 	<description></description>
 	<icon></icon>
-	<version>7.5</version>
+	<version>7.6</version>
 	<dleversion>13.0</dleversion>
 	<versioncompare>greater</versioncompare>
 	<upgradeurl></upgradeurl>
@@ -333,7 +333,7 @@ $user_day = $row['count'];
 
 $stats_users = $prouser_sum + $user_sum + 0;
 $uStats = <<<HTML
-<div class="card mb-5 w-100">
+<div class="card w-100">
 <div class="card-body">
 	<div class="progress" style="height: 3px;">
 	  <div class="progress-bar bg-primary" role="progressbar" style="width: $stats_news%" aria-valuenow="$stats_news" aria-valuemin="0" ></div>

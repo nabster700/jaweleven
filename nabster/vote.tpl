@@ -1,5 +1,5 @@
 <div class="card mb-5">
-   <h6 class="card-header">{title}</h6>
+   <h6 class="card-header px-3"><i class="fa fa-question-circle mr-2 text-info" aria-hidden="true"></i>{title}</h6>
    [votelist]
    <form method="post" name="vote">
    [/votelist]
